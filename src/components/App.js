@@ -5,7 +5,7 @@ import Header from './Header/Header';
 import List from './List/List';
 import Workspace from './Workspace/Workspace';
 
-import {getCustomerList} from '../customers';
+import {getCustomerList, postCustomer} from '../customers';
 
 
 class App extends Component {
@@ -19,6 +19,7 @@ class App extends Component {
     }
 
     this.startNewCustomer = this.startNewCustomer.bind(this);
+    this.createCustomer = this.createCustomer.bind(this);
 
   }
 
@@ -37,6 +38,18 @@ class App extends Component {
       currentCustomer: null
     });
   }
+
+  createCustomer(customer){
+    postCustomer(customer).then(() => {
+      getCustomerList().then((list) => {
+        this.setState({
+          initialLoad:true,
+          creating: false,
+          customerList: list
+        });
+      })
+    })
+  }
   
 
   render() {
@@ -54,6 +67,7 @@ class App extends Component {
             : null
           }
           <Workspace initialLoad={this.state.initialLoad}
+                    createCustomer={this.createCustomer}
                     currentCustomer={this.state.currentCustomer}
                     creating={this.state.creating}
                   />
