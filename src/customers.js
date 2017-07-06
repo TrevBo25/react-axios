@@ -6,3 +6,7 @@ export const getCustomerList = function() {
     return response.data;
   })
 }
+
+export const postCustomer = function(obj) {
+  return axios.post(apiURL, obj).then(resp => resp.data);
+}
